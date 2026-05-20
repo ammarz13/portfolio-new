@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-sans: 'Inter', system-ui, sans-serif;
+}
+
+/* ══════════════════════════════════════════
+   TOKENS  –  Dark (default)
+══════════════════════════════════════════ */
+:root {
+  --nav-hover:    rgba(255,255,255,0.07);
+  --accent-text:  #818cf8;
+  --bg-1:        #04020e;
+  --bg-2:        #07041a;
+  --card-bg:     rgba(255,255,255,0.018);
+  --card-border: rgba(129,140,248,0.12);
+  --card-shadow: rgba(0,0,0,0.65);
+  --nav-bg:      rgba(4,2,14,0.88);
+  --nav-border:  rgba(129,140,248,0.1);
+  --nav-text:    rgba(241,240,255,0.42);
+  --nav-text-h:  #f1f0ff;
+  --text-1:      #f1f0ff;
+  --text-2:      rgba(241,240,255,0.54);
+  --text-3:      rgba(241,240,255,0.3);
+  --dot-border:  #07041a;
+  --hero-bg:     #04020e;
+  --contact-bg:  linear-gradient(160deg,#04020e 0%,#050818 55%,#080c20 100%);
+  --footer-bg:   #03010c;
+  --tag-bg:      rgba(129,140,248,0.07);
+  --tag-text:    rgba(241,240,255,0.56);
+}
+
+/* ══════════════════════════════════════════
+   TOKENS  –  Light
+══════════════════════════════════════════ */
+:root.light {
+  --nav-hover:    rgba(10,20,60,0.07);
+  --accent-text:  #4f46e5;
+  --bg-1:        #f0f4ff;
+  --bg-2:        #e8efff;
+  --card-bg:     rgba(255,255,255,0.82);
+  --card-border: rgba(99,102,241,0.18);
+  --card-shadow: rgba(50,60,160,0.1);
+  --nav-bg:      rgba(240,244,255,0.92);
+  --nav-border:  rgba(99,102,241,0.12);
+  --nav-text:    rgba(15,20,60,0.5);
+  --nav-text-h:  #0f1430;
+  --text-1:      #0f1430;
+  --text-2:      rgba(15,20,60,0.6);
+  --text-3:      rgba(15,20,60,0.52);
+  --dot-border:  #e8efff;
+  --hero-bg:     #0f1e4b;
+  --contact-bg:  linear-gradient(160deg,#0f1e4b 0%,#1e3a8a 100%);
+  --footer-bg:   #080f2e;
+  --tag-bg:      rgba(99,102,241,0.1);
+  --tag-text:    rgba(15,20,60,0.65);
+}
+
+/* ══════════════════════════════════════════
+   BASE
+══════════════════════════════════════════ */
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body {
+  font-family: var(--font-family-sans);
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg-1);
+  color: var(--text-1);
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+/* ══════════════════════════════════════════
+   NOISE  texture overlay
+══════════════════════════════════════════ */
+.noise-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.028;
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 192px;
+}
+
+/* ══════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════ */
+@keyframes nav-slide-down {
+  from { transform: translateY(-100%); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+.nav-bar { animation: nav-slide-down 0.65s cubic-bezier(0.16,1,0.3,1) 0.1s both; }
+
+/* ══════════════════════════════════════════
+   GLASS CARD  +  gradient-border on hover
+══════════════════════════════════════════ */
+.glass-card {
+  position:        relative;
+  background:      var(--card-bg);
+  border:          1px solid var(--card-border);
+  box-shadow:      0 4px 30px var(--card-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius:   1rem;
+  transition:      border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  overflow:        hidden;
+}
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg,#60a5fa,#818cf8,#c084fc);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.glass-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 80px rgba(129,140,248,0.08); }
+.glass-card:hover::before { opacity: 1; }
+
+/* ══════════════════════════════════════════
+   GRADIENT TEXT
+══════════════════════════════════════════ */
+.grad-text {
+  background: linear-gradient(135deg,#f0f4ff 10%,#bfdbfe 60%,#818cf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+:root.light .grad-text {
+  background: linear-gradient(135deg,#1e40af 15%,#4f46e5 55%,#7c3aed 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ══════════════════════════════════════════
+   SKILL TAG
+══════════════════════════════════════════ */
+.skill-tag { transition: all 0.22s ease; cursor: default; }
+.skill-tag:hover {
+  background: linear-gradient(135deg,#60a5fa,#818cf8,#c084fc) !important;
+  color:      #fff !important;
+  border-color: transparent !important;
+  transform:  translateY(-2px);
+  box-shadow: 0 6px 20px rgba(129,140,248,0.4);
+}
+
+/* ══════════════════════════════════════════
+   TIMELINE
+══════════════════════════════════════════ */
+.timeline-line::before {
+  content: '';
+  position: absolute;
+  left: 6px; top: 8px; bottom: 8px; width: 2px;
+  background: linear-gradient(to bottom,#60a5fa 0%,#818cf8 50%,#c084fc 100%);
+  border-radius: 2px;
+}
+
+/* ══════════════════════════════════════════
+   PULSING AVAILABILITY DOT
+══════════════════════════════════════════ */
+@keyframes avail-ping {
+  0%   { transform:scale(1);   opacity:1; }
+  75%  { transform:scale(2.5); opacity:0; }
+  100% { transform:scale(2.5); opacity:0; }
+}
+.avail-dot::before {
+  content:'';
+  position:absolute; inset:0; border-radius:50%;
+  background:#4ade80;
+  animation: avail-ping 2s ease-out infinite;
+}
+
+/* ══════════════════════════════════════════
+   AURORA  animations
+══════════════════════════════════════════ */
+@keyframes aurora-a {
+  0%,100%{transform:translate(0,0)   scale(1);}
+  40%    {transform:translate(60px,-55px) scale(1.14);}
+  70%    {transform:translate(-30px, 38px) scale(0.93);}
+}
+@keyframes aurora-b {
+  0%,100%{transform:translate(0,0)   scale(1);}
+  33%    {transform:translate(-55px, 45px) scale(1.09);}
+  66%    {transform:translate(35px,-28px) scale(0.96);}
+}
+@keyframes aurora-c {
+  0%,100%{transform:translate(0,0)  scale(1);}
+  50%    {transform:translate(28px, 38px) scale(1.06);}
+}
+.aurora-a{animation:aurora-a 22s ease-in-out infinite;}
+.aurora-b{animation:aurora-b 28s ease-in-out infinite; animation-delay:-7s;}
+.aurora-c{animation:aurora-c 17s ease-in-out infinite; animation-delay:-12s;}
+
+/* ══════════════════════════════════════════
+   SPINNING AVATAR RING
+══════════════════════════════════════════ */
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+.spin-ring { animation: spin-slow 10s linear infinite; }
+
+/* ══════════════════════════════════════════
+   SCROLL INDICATOR
+══════════════════════════════════════════ */
+@keyframes scroll-dot {
+  0%   { transform:translateY(0);    opacity:1; }
+  75%  { transform:translateY(14px); opacity:0; }
+  100% { transform:translateY(0);    opacity:0; }
+}
+
+/* ══════════════════════════════════════════
+   STAT CARD
+══════════════════════════════════════════ */
+.stat-card { transition: transform 0.3s, box-shadow 0.3s; }
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.55), 0 0 50px rgba(129,140,248,0.12);
+}
+
+/* ══════════════════════════════════════════
+   SECTION GLOW
+══════════════════════════════════════════ */
+.section-glow-left {
+  background: radial-gradient(circle,rgba(96,165,250,0.08),transparent 70%);
+  filter: blur(80px);
+}
+.section-glow-right {
+  background: radial-gradient(circle,rgba(192,132,252,0.07),transparent 70%);
+  filter: blur(80px);
+}
+
+/* ══════════════════════════════════════════
+   NAV HOVER  (theme-aware)
+══════════════════════════════════════════ */
+.nav-hover:hover { background: var(--nav-hover) !important; }
+
+/* ══════════════════════════════════════════
+   LIGHT MODE  overrides
+══════════════════════════════════════════ */
+:root.light .section-glow-left,
+:root.light .section-glow-right { opacity: 0.35; }
+
+:root.light .glass-card {
+  background:   rgba(255,255,255,0.92) !important;
+  border-color: rgba(79,70,229,0.18)   !important;
+  box-shadow:   0 2px 16px rgba(50,60,180,0.08), 0 8px 32px rgba(50,60,180,0.06);
+}
+:root.light .glass-card:hover {
+  background:   rgba(255,255,255,1) !important;
+  border-color: rgba(79,70,229,0.35) !important;
+  box-shadow:   0 8px 40px rgba(50,60,180,0.16), 0 0 0 1px rgba(79,70,229,0.1);
+}
+
+:root.light .section-sub { color: #4f46e5 !important; }
+
+:root.light .stat-card:hover {
+  box-shadow: 0 12px 36px rgba(50,60,180,0.14), 0 0 30px rgba(99,102,241,0.1);
+}
+
+:root.light .skill-tag:hover {
+  box-shadow: 0 6px 20px rgba(79,70,229,0.3);
+}
+
+:root.light .noise-bg::after { opacity: 0.015; }
+
+/* ══════════════════════════════════════════
+   EDUCATION ICON  –  scale on card hover
+══════════════════════════════════════════ */
+.edu-icon { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+.glass-card:hover .edu-icon { transform: scale(1.18) rotate(6deg); }
+
+/* ══════════════════════════════════════════
+   PROJECT INITIALS  –  scale on card hover
+══════════════════════════════════════════ */
+.project-initials { transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+.glass-card:hover .project-initials { transform: scale(1.1) rotate(4deg); }
+
+/* ══════════════════════════════════════════
+   ABOUT CONTACT ROW
+══════════════════════════════════════════ */
+.about-row { transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; }
+
+/* ══════════════════════════════════════════
+   EXPERIENCE BADGES
+══════════════════════════════════════════ */
+.exp-badge { transition: transform 0.22s ease, box-shadow 0.22s ease; }
+.exp-badge:hover { transform: translateY(-2px); }
+
+.exp-period { transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease; }
