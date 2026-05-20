@@ -1,284 +1,325 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from '../lib/gsap.js'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 
 const go = (id) => {
   const el = document.getElementById(id)
   if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 84, behavior: 'smooth' })
 }
 
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+}
+const up = {
+  hidden: { y: 52, opacity: 0, filter: 'blur(8px)' },
+  show:   { y: 0,  opacity: 1, filter: 'blur(0px)',
+    transition: { type: 'spring', stiffness: 72, damping: 18 } },
+}
+
+const TECH_COLORS = ['#818cf8','#60a5fa','#c084fc','#818cf8','#60a5fa','#c084fc']
+
 export default function Hero() {
   const ref = useRef(null)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.timeline({ defaults: { ease: 'power4.out' } })
-        .from('.h-badge',  { y: 24, opacity: 0, duration: 0.7 })
-        .from('.h-line1',  { y: 70, opacity: 0, duration: 1.1 }, '-=0.3')
-        .from('.h-line2',  { y: 70, opacity: 0, duration: 1.1 }, '-=0.85')
-        .from('.h-sub',    { y: 30, opacity: 0, duration: 0.8 }, '-=0.7')
-        .from('.h-desc',   { y: 24, opacity: 0, duration: 0.8 }, '-=0.65')
-        .from('.h-btns',   { y: 20, opacity: 0, duration: 0.7 }, '-=0.6')
-        .from('.h-chips',  { y: 16, opacity: 0, duration: 0.6 }, '-=0.5')
-        .from('.h-avatar', { scale: 0.55, opacity: 0, duration: 1.2, ease: 'back.out(1.4)' }, '-=1.1')
-    }, ref)
-    return () => ctx.revert()
-  }, [])
+  const blobY1  = useTransform(scrollYProgress, [0, 1], [0, -160])
+  const blobY2  = useTransform(scrollYProgress, [0, 1], [0, -90])
+  const blobY3  = useTransform(scrollYProgress, [0, 1], [0, -50])
+  const fadeOut = useTransform(scrollYProgress, [0, 0.55], [1, 0])
+  const slideUp = useTransform(scrollYProgress, [0, 0.55], [0, -48])
 
   return (
     <section
       ref={ref}
       id="hero"
-      className="noise-bg relative min-h-screen flex items-center overflow-hidden"
+      className="noise-bg relative min-h-screen flex flex-col overflow-hidden"
       style={{ background: 'var(--hero-bg)', paddingTop: '68px' }}
     >
-      {/* ── Aurora blobs ── */}
-      <div className="aurora-a absolute -top-52 -left-52 w-[900px] h-[900px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle,rgba(96,165,250,0.18) 0%,transparent 65%)', filter: 'blur(100px)' }} />
-      <div className="aurora-b absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle,rgba(129,140,248,0.14) 0%,transparent 65%)', filter: 'blur(90px)' }} />
-      <div className="aurora-c absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle,rgba(192,132,252,0.09) 0%,transparent 65%)', filter: 'blur(80px)' }} />
+      {/* ── Aurora blobs (parallax) ── */}
+      <motion.div
+        style={{ y: blobY1, background: 'radial-gradient(circle,rgba(96,165,250,0.18),transparent 65%)', filter: 'blur(100px)' }}
+        className="aurora-a absolute -top-52 -left-52 w-[900px] h-[900px] rounded-full pointer-events-none"
+      />
+      <motion.div
+        style={{ y: blobY2, background: 'radial-gradient(circle,rgba(129,140,248,0.14),transparent 65%)', filter: 'blur(90px)' }}
+        className="aurora-b absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full pointer-events-none"
+      />
+      <motion.div
+        style={{ y: blobY3, background: 'radial-gradient(circle,rgba(192,132,252,0.09),transparent 65%)', filter: 'blur(80px)' }}
+        className="aurora-c absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+      />
 
-      {/* ── Dot grid with vignette mask ── */}
+      {/* ── Dot grid ── */}
       <div className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'radial-gradient(circle,rgba(129,140,248,0.09) 1px,transparent 1px)',
           backgroundSize: '36px 36px',
-          maskImage: 'radial-gradient(ellipse 75% 75% at 50% 50%,black,transparent)',
+          maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)',
         }} />
 
       {/* ── Main content ── */}
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-24">
-        <div className="flex flex-col md:flex-row items-center gap-12 lg:gap-16">
+      <motion.div
+        style={{ opacity: fadeOut, y: slideUp }}
+        className="relative z-10 flex-1 flex items-center w-full max-w-6xl mx-auto px-6 py-20"
+      >
+        <div className="flex flex-col lg:flex-row items-center gap-14 xl:gap-20 w-full">
 
-          {/* ── LEFT ── */}
-          <div className="flex-1 text-center md:text-left">
-
+          {/* ── LEFT: text ── */}
+          <motion.div
+            className="flex-1 text-center lg:text-left"
+            variants={stagger}
+            initial="hidden"
+            animate="show"
+          >
             {/* Availability badge */}
-            <div className="h-badge inline-flex items-center gap-2.5 mb-8 px-4 py-2 rounded-full text-xs font-bold"
-              style={{
-                background: 'rgba(74,222,128,0.07)',
-                border: '1px solid rgba(74,222,128,0.22)',
-                color: '#4ade80',
-              }}>
-              <span className="avail-dot relative w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#4ade80' }} />
-              Open to new opportunities
-            </div>
+            <motion.div variants={up} className="inline-block mb-8">
+              <div
+                className="avail-badge h-badge inline-flex items-center gap-3 px-5 py-3 rounded-full cursor-default"
+                style={{
+                  background:     'rgba(74,222,128,0.05)',
+                  border:         '1px solid rgba(74,222,128,0.32)',
+                  backdropFilter: 'blur(16px)',
+                }}
+              >
+                <span className="avail-dot relative flex-shrink-0 rounded-full"
+                  style={{ width: '10px', height: '10px', background: '#4ade80', boxShadow: '0 0 10px rgba(74,222,128,0.9),0 0 22px rgba(74,222,128,0.45)' }} />
+                <span className="text-[11px] font-bold tracking-[0.06em]" style={{ color: '#4ade80' }}>Open to new opportunities</span>
+                <span className="w-1 h-1 rounded-full flex-shrink-0" style={{ background: 'rgba(74,222,128,0.4)' }} />
+              </div>
+            </motion.div>
 
             {/* Name */}
-            <div className="overflow-hidden mb-2">
-              <h1 className="h-line1 font-extrabold tracking-tighter leading-[0.95]"
-                style={{ fontSize: 'clamp(3.2rem,8vw,6rem)', color: '#f1f0ff' }}>
+            <motion.div variants={up} className="mb-7">
+              <h1 className="font-extrabold tracking-tighter leading-[0.92]"
+                style={{ fontSize: 'clamp(3rem,8vw,6rem)', color: '#f1f0ff' }}>
                 Hafiz Ammar
               </h1>
-            </div>
-            <div className="overflow-hidden mb-7">
-              <h1
-                className="h-line2 font-extrabold tracking-tighter leading-[0.95]"
+              <h1 className="font-extrabold tracking-tighter leading-[0.92]"
                 style={{
-                  fontSize: 'clamp(3.2rem,8vw,6rem)',
+                  fontSize: 'clamp(3rem,8vw,6rem)',
                   background: 'linear-gradient(135deg,#60a5fa 0%,#818cf8 50%,#c084fc 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                }}
-              >
+                  backgroundClip: 'text',
+                }}>
                 Hameed.
               </h1>
-            </div>
+            </motion.div>
 
-            {/* Role */}
-            <div className="h-sub flex flex-wrap items-center gap-3 justify-center md:justify-start mb-5">
+            {/* Role badge */}
+            <motion.div variants={up} className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-5">
               <span className="text-base font-semibold" style={{ color: 'rgba(241,240,255,0.54)' }}>
                 Senior Front-End Developer
               </span>
               <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(241,240,255,0.3)' }} />
-              <span
-                className="text-sm font-semibold px-2.5 py-1 rounded-lg"
-                style={{ background: 'rgba(129,140,248,0.1)', color: '#818cf8', border: '1px solid rgba(129,140,248,0.2)' }}
-              >
+              <span className="text-sm font-semibold px-2.5 py-1 rounded-lg"
+                style={{ background: 'rgba(129,140,248,0.1)', color: '#818cf8', border: '1px solid rgba(129,140,248,0.2)' }}>
                 7+ Years
               </span>
-            </div>
+            </motion.div>
 
             {/* Description */}
-            <p className="h-desc text-[15px] leading-[1.9] mb-9 max-w-[480px] mx-auto md:mx-0"
+            <motion.p variants={up}
+              className="text-[15px] leading-[1.9] mb-9 max-w-[480px] mx-auto lg:mx-0"
               style={{ color: 'rgba(241,240,255,0.54)' }}>
               Building high-performance, pixel-perfect interfaces with React, Vue &amp; Angular.
               I turn complex requirements into clean, delightful user experiences.
-            </p>
+            </motion.p>
 
-            {/* Buttons */}
-            <div className="h-btns flex flex-wrap gap-3 justify-center md:justify-start mb-10">
-              <button
+            {/* CTA Buttons */}
+            <motion.div variants={up} className="flex flex-wrap gap-3 justify-center lg:justify-start mb-10">
+              <motion.button
                 onClick={() => go('contact')}
-                className="group relative px-8 py-3.5 rounded-full text-sm font-bold text-white overflow-hidden transition-all hover:-translate-y-0.5"
+                className="px-8 py-3.5 rounded-full text-sm font-bold text-white"
                 style={{ background: 'linear-gradient(135deg,#60a5fa,#818cf8,#c084fc)', boxShadow: '0 8px 30px rgba(129,140,248,0.45)' }}
-                onMouseEnter={(e) => { e.currentTarget.style.boxShadow = '0 12px 40px rgba(129,140,248,0.6)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.boxShadow = '0 8px 30px rgba(129,140,248,0.45)' }}
+                whileHover={{ scale: 1.05, boxShadow: '0 14px 44px rgba(129,140,248,0.65)' }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
-                <span className="relative z-10">Let's Work Together ✦</span>
-              </button>
-              <button
+                Let's Work Together ✦
+              </motion.button>
+              <motion.button
                 onClick={() => go('projects')}
-                className="px-8 py-3.5 rounded-full text-sm font-bold transition-all hover:-translate-y-0.5"
-                style={{
-                  background: 'rgba(129,140,248,0.06)',
-                  border: '1px solid rgba(129,140,248,0.2)',
-                  color: '#bfdbfe',
-                  backdropFilter: 'blur(8px)',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(129,140,248,0.12)'; e.currentTarget.style.borderColor = 'rgba(129,140,248,0.4)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(129,140,248,0.06)'; e.currentTarget.style.borderColor = 'rgba(129,140,248,0.2)' }}
+                className="px-8 py-3.5 rounded-full text-sm font-bold"
+                style={{ background: 'rgba(129,140,248,0.06)', border: '1px solid rgba(129,140,248,0.2)', color: '#bfdbfe', backdropFilter: 'blur(8px)' }}
+                whileHover={{ scale: 1.05, background: 'rgba(129,140,248,0.14)', borderColor: 'rgba(129,140,248,0.4)' }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20 }}
               >
                 View My Work →
-              </button>
-            </div>
+              </motion.button>
+            </motion.div>
 
             {/* Tech chips */}
-            <div className="h-chips flex flex-wrap gap-2 justify-center md:justify-start">
-              {['React.js','Vue.js','Angular','TypeScript','Tailwind CSS','GSAP'].map((tech, i) => {
-                const colors = ['#818cf8','#60a5fa','#c084fc','#818cf8','#60a5fa','#c084fc']
-                const c = colors[i % colors.length]
-                return (
-                  <span
-                    key={tech}
-                    className="skill-tag px-3 py-1 rounded-full text-[11px] font-semibold"
-                    style={{ background: `${c}10`, color: c, border: `1px solid ${c}25` }}
-                  >
-                    {tech}
-                  </span>
-                )
-              })}
-            </div>
-          </div>
+            <motion.div variants={up} className="flex flex-wrap gap-2 justify-center lg:justify-start">
+              {['React.js','Vue.js','Angular','TypeScript','Tailwind CSS','GSAP'].map((tech, i) => (
+                <motion.span
+                  key={tech}
+                  className="skill-tag px-3 py-1 rounded-full text-[11px] font-semibold"
+                  style={{ background: `${TECH_COLORS[i]}10`, color: TECH_COLORS[i], border: `1px solid ${TECH_COLORS[i]}25` }}
+                  whileHover={{ scale: 1.08 }}
+                  transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                >
+                  {tech}
+                </motion.span>
+              ))}
+            </motion.div>
+          </motion.div>
 
-          {/* ── RIGHT – Avatar ── */}
-          <div className="h-avatar relative flex-shrink-0 flex items-center justify-center" style={{ width: '320px', height: '320px' }}>
-            {/* Outer glow */}
-            <div className="absolute inset-0 rounded-full"
-              style={{ background: 'radial-gradient(circle,rgba(129,140,248,0.2),transparent 70%)', filter: 'blur(30px)' }} />
+          {/* ── RIGHT: Profile card composition ── */}
+          <motion.div
+            className="hidden lg:flex flex-shrink-0 relative items-center justify-center"
+            style={{ width: '400px', height: '460px' }}
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ type: 'spring', stiffness: 55, damping: 20, delay: 0.7 }}
+          >
+            {/* Ambient glow */}
+            <div className="absolute inset-0 pointer-events-none"
+              style={{ background: 'radial-gradient(circle at 55% 45%,rgba(129,140,248,0.22),transparent 60%)', filter: 'blur(55px)' }} />
 
-            {/* Spinning conic ring */}
-            <div
-              className="spin-ring absolute"
-              style={{
-                inset: '-3px',
-                borderRadius: '50%',
-                background: 'conic-gradient(from 0deg,#60a5fa,#818cf8,#c084fc,#60a5fa)',
-                filter: 'blur(1px)',
-              }}
-            />
-            {/* Inner mask (covers ring interior) */}
-            <div className="absolute"
-              style={{ inset: '3px', borderRadius: '50%', background: 'var(--hero-bg)' }} />
-
-            {/* Avatar content */}
-            <div
-              className="relative z-10 flex flex-col items-center justify-center rounded-full"
-              style={{
-                width: '280px', height: '280px',
-                background: 'linear-gradient(135deg,rgba(96,165,250,0.2),rgba(129,140,248,0.2),rgba(4,2,14,0.8))',
-                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.3)',
-              }}
+            {/* Central card */}
+            <motion.div
+              className="glass-card relative flex flex-col items-center text-center p-8"
+              style={{ width: '264px', borderRadius: '24px', zIndex: 2 }}
+              animate={{ y: [0, -10, 0] }}
+              transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <div
-                className="text-6xl font-extrabold mb-1"
-                style={{
-                  background: 'linear-gradient(135deg,#60a5fa,#818cf8)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}
-              >
-                AH
+              {/* Avatar */}
+              <div className="relative mb-6">
+                <div className="w-20 h-20 rounded-full flex items-center justify-center font-extrabold text-white text-2xl"
+                  style={{ background: 'linear-gradient(135deg,#60a5fa,#818cf8,#c084fc)', boxShadow: '0 0 0 4px rgba(129,140,248,0.2),0 8px 28px rgba(129,140,248,0.4)' }}>
+                  AH
+                </div>
+                <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 bg-green-400"
+                  style={{ borderColor: 'var(--hero-bg)', boxShadow: '0 0 10px rgba(74,222,128,0.9)' }} />
               </div>
-              <div className="text-[10px] tracking-[0.3em] uppercase font-bold"
-                style={{ color: 'rgba(255,255,255,0.3)' }}>
-                Frontend Dev
-              </div>
-            </div>
 
-            {/* Floating tech pills */}
-            {[
-              { label: 'React.js', pos: '-top-4 left-1/2 -translate-x-1/2', color: '#818cf8' },
-              { label: 'Vue.js',   pos: 'top-1/2 -right-14 -translate-y-1/2', color: '#60a5fa' },
-              { label: 'Angular',  pos: '-bottom-4 left-1/2 -translate-x-1/2', color: '#c084fc' },
-              { label: 'TS',       pos: 'top-1/2 -left-10 -translate-y-1/2', color: '#818cf8' },
-            ].map(({ label, pos, color }) => (
-              <div
-                key={label}
-                className={`absolute ${pos} px-3 py-1.5 rounded-full text-[11px] font-bold z-20`}
-                style={{
-                  background: `${color}12`,
-                  border: `1px solid ${color}35`,
-                  color,
-                  backdropFilter: 'blur(8px)',
-                  boxShadow: `0 4px 16px ${color}20`,
-                  transition: 'background 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease',
-                  cursor: 'default',
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = `${color}25`
-                  e.currentTarget.style.borderColor = `${color}65`
-                  e.currentTarget.style.boxShadow = `0 8px 28px ${color}45`
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = `${color}12`
-                  e.currentTarget.style.borderColor = `${color}35`
-                  e.currentTarget.style.boxShadow = `0 4px 16px ${color}20`
-                }}
-              >
-                {label}
+              <p className="font-bold text-sm mb-0.5" style={{ color: '#f1f0ff' }}>Hafiz Ammar Hameed</p>
+              <p className="text-[11px] mb-6" style={{ color: 'rgba(241,240,255,0.42)' }}>Senior Front-End Developer</p>
+
+              <div className="w-full h-px mb-6"
+                style={{ background: 'linear-gradient(90deg,transparent,rgba(129,140,248,0.18),transparent)' }} />
+
+              <div className="flex w-full justify-around">
+                {[['7+','Years'],['8+','Projects'],['5','Companies']].map(([n, l]) => (
+                  <div key={l} className="flex flex-col items-center">
+                    <span className="text-xl font-extrabold" style={{ color: '#818cf8' }}>{n}</span>
+                    <span className="text-[10px] mt-0.5" style={{ color: 'rgba(241,240,255,0.38)' }}>{l}</span>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </motion.div>
+
+            {/* Chip: Experience — top right */}
+            <motion.div
+              className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
+              style={{ top: '36px', right: '0', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(129,140,248,0.18)', zIndex: 3 }}
+              initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.1, type: 'spring', stiffness: 75 }}
+              whileHover={{ scale: 1.06, x: -4 }}
+            >
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                style={{ background: 'rgba(129,140,248,0.18)' }}>🚀</div>
+              <div className="text-left">
+                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>7+ Years</div>
+                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>Experience</div>
+              </div>
+            </motion.div>
+
+            {/* Chip: Design — top left */}
+            <motion.div
+              className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
+              style={{ top: '118px', left: '0', background: 'rgba(192,132,252,0.1)', border: '1px solid rgba(192,132,252,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(192,132,252,0.18)', zIndex: 3 }}
+              initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.3, type: 'spring', stiffness: 75 }}
+              whileHover={{ scale: 1.06, x: 4 }}
+            >
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                style={{ background: 'rgba(192,132,252,0.18)' }}>🎨</div>
+              <div className="text-left">
+                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>UI Designer</div>
+                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>& Developer</div>
+              </div>
+            </motion.div>
+
+            {/* Chip: Tech — bottom left */}
+            <motion.div
+              className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
+              style={{ bottom: '78px', left: '0', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(96,165,250,0.18)', zIndex: 3 }}
+              initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.5, type: 'spring', stiffness: 75 }}
+              whileHover={{ scale: 1.06, x: 4 }}
+            >
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
+                style={{ background: 'rgba(96,165,250,0.18)' }}>⚡</div>
+              <div className="text-left">
+                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>React & Vue</div>
+                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>Expert Level</div>
+              </div>
+            </motion.div>
+
+            {/* Chip: Available — bottom right */}
+            <motion.div
+              className="absolute flex items-center gap-2 px-3.5 py-2.5 rounded-2xl cursor-default"
+              style={{ bottom: '48px', right: '8px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.28)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(74,222,128,0.12)', zIndex: 3 }}
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.7, type: 'spring', stiffness: 75 }}
+              whileHover={{ scale: 1.08 }}
+            >
+              <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: '#4ade80', boxShadow: '0 0 8px rgba(74,222,128,0.9)' }} />
+              <span className="text-[10px] font-bold" style={{ color: '#4ade80' }}>Available Now</span>
+            </motion.div>
+          </motion.div>
+
         </div>
+      </motion.div>
 
-        {/* ── Stats row ── */}
-        <div className="h-btns mt-16 pt-8 border-t flex flex-wrap gap-8 justify-center md:justify-start"
-          style={{ borderColor: 'rgba(129,140,248,0.1)' }}>
-          {[
-            ['7+',  'Years of Experience'],
-            ['8+',  'Projects Delivered'],
-            ['5',   'Companies Worked'],
-            ['20+', 'Tech Skills Mastered'],
-          ].map(([n, l]) => (
-            <div key={l} className="flex items-center gap-3">
-              <span
-                className="text-3xl font-extrabold"
-                style={{
-                  background: 'linear-gradient(135deg,#60a5fa,#818cf8,#c084fc)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
-              >{n}</span>
-              <span className="text-sm max-w-[90px] leading-tight" style={{ color: 'rgba(241,240,255,0.3)' }}>{l}</span>
-            </div>
-          ))}
+      {/* ── Tech marquee ── */}
+      <div className="relative z-10 overflow-hidden py-4 mb-12"
+        style={{
+          borderTop:    '1px solid rgba(129,140,248,0.08)',
+          borderBottom: '1px solid rgba(129,140,248,0.08)',
+          maskImage:    'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(90deg,transparent 0%,black 12%,black 88%,transparent 100%)',
+        }}>
+        <div className="marquee-track gap-4">
+          {(() => {
+            const items = [
+              { label: 'React.js',     c: '#818cf8' }, { label: 'Vue.js',       c: '#60a5fa' },
+              { label: 'Angular',      c: '#c084fc' }, { label: 'TypeScript',   c: '#818cf8' },
+              { label: 'Tailwind CSS', c: '#60a5fa' }, { label: 'Next.js',      c: '#c084fc' },
+              { label: 'GSAP',         c: '#818cf8' }, { label: 'Figma',        c: '#60a5fa' },
+              { label: 'Node.js',      c: '#c084fc' }, { label: 'Builder.io',   c: '#818cf8' },
+              { label: 'WordPress',    c: '#60a5fa' }, { label: 'GraphQL',      c: '#c084fc' },
+            ]
+            return [...items, ...items].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap flex-shrink-0"
+                style={{ background: `${item.c}12`, color: item.c, border: `1px solid ${item.c}28` }}>
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: item.c }} />
+                {item.label}
+              </div>
+            ))
+          })()}
         </div>
       </div>
 
       {/* ── Scroll cue ── */}
-      <button
+      <motion.button
         onClick={() => go('about')}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer group"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 2, duration: 0.6 }}
+        style={{ opacity: fadeOut }}
       >
-        <div
-          className="w-6 h-10 rounded-full flex items-start justify-center pt-2 transition-all"
-          style={{ border: '1px solid rgba(129,140,248,0.2)' }}
-          onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'rgba(129,140,248,0.5)' }}
-          onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'rgba(129,140,248,0.2)' }}
-        >
-          <div
-            className="w-1 h-2.5 rounded-full"
-            style={{
-              background: 'linear-gradient(to bottom,#60a5fa,#818cf8)',
-              animation: 'scroll-dot 1.8s ease-in-out infinite',
-            }}
-          />
+        <div className="w-6 h-10 rounded-full flex items-start justify-center pt-2"
+          style={{ border: '1px solid rgba(129,140,248,0.2)' }}>
+          <div className="w-1 h-2.5 rounded-full"
+            style={{ background: 'linear-gradient(to bottom,#60a5fa,#818cf8)', animation: 'scroll-dot 1.8s ease-in-out infinite' }} />
         </div>
         <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'rgba(241,240,255,0.3)' }}>scroll</span>
-      </button>
+      </motion.button>
     </section>
   )
 }
