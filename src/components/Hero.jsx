@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import heroImg from '../assets/hero.png'
 
 const go = (id) => {
   const el = document.getElementById(id)
@@ -91,7 +92,7 @@ export default function Hero() {
             {/* Name */}
             <motion.div variants={up} className="mb-7">
               <h1 className="font-extrabold tracking-tighter leading-[0.92]"
-                style={{ fontSize: 'clamp(3rem,8vw,6rem)', color: '#f1f0ff' }}>
+                style={{ fontSize: 'clamp(3rem,8vw,6rem)', color: 'var(--text-1)' }}>
                 Hafiz Ammar
               </h1>
               <h1 className="font-extrabold tracking-tighter leading-[0.92]"
@@ -108,10 +109,10 @@ export default function Hero() {
 
             {/* Role badge */}
             <motion.div variants={up} className="flex flex-wrap items-center gap-3 justify-center lg:justify-start mb-5">
-              <span className="text-base font-semibold" style={{ color: 'rgba(241,240,255,0.54)' }}>
+              <span className="text-base font-semibold" style={{ color: 'var(--text-2)' }}>
                 Senior Front-End Developer
               </span>
-              <span className="w-1 h-1 rounded-full" style={{ background: 'rgba(241,240,255,0.3)' }} />
+              <span className="w-1 h-1 rounded-full" style={{ background: 'var(--text-3)' }} />
               <span className="text-sm font-semibold px-2.5 py-1 rounded-lg"
                 style={{ background: 'rgba(129,140,248,0.1)', color: '#818cf8', border: '1px solid rgba(129,140,248,0.2)' }}>
                 7+ Years
@@ -121,7 +122,7 @@ export default function Hero() {
             {/* Description */}
             <motion.p variants={up}
               className="text-[15px] leading-[1.9] mb-9 max-w-[480px] mx-auto lg:mx-0"
-              style={{ color: 'rgba(241,240,255,0.54)' }}>
+              style={{ color: 'var(--text-2)' }}>
               Building high-performance, pixel-perfect interfaces with React, Vue &amp; Angular.
               I turn complex requirements into clean, delightful user experiences.
             </motion.p>
@@ -166,55 +167,65 @@ export default function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* ── RIGHT: Profile card composition ── */}
+          {/* ── RIGHT: Photo composition ── */}
           <motion.div
             className="hidden lg:flex flex-shrink-0 relative items-center justify-center"
-            style={{ width: '400px', height: '460px' }}
+            style={{ width: '420px', height: '500px' }}
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ type: 'spring', stiffness: 55, damping: 20, delay: 0.7 }}
+            transition={{ type: 'spring', stiffness: 50, damping: 20, delay: 0.7 }}
           >
-            {/* Ambient glow */}
+            {/* Outer ambient glow */}
             <div className="absolute inset-0 pointer-events-none"
-              style={{ background: 'radial-gradient(circle at 55% 45%,rgba(129,140,248,0.22),transparent 60%)', filter: 'blur(55px)' }} />
+              style={{ background: 'radial-gradient(circle at 50% 50%,rgba(129,140,248,0.28),transparent 65%)', filter: 'blur(50px)' }} />
 
-            {/* Central card */}
+            {/* Slow rotating dashed ring */}
+            <div className="spin-ring-slow absolute rounded-full pointer-events-none"
+              style={{ inset: '12px', border: '1px dashed rgba(129,140,248,0.18)' }} />
+
+            {/* Reverse rotating ring */}
+            <div className="spin-ring-reverse absolute rounded-full pointer-events-none"
+              style={{ inset: '34px', border: '1px solid rgba(192,132,252,0.12)' }} />
+
+            {/* Photo frame */}
             <motion.div
-              className="glass-card relative flex flex-col items-center text-center p-8"
-              style={{ width: '264px', borderRadius: '24px', zIndex: 2 }}
+              className="relative rounded-full overflow-hidden z-10"
+              style={{
+                width: '280px',
+                height: '280px',
+                padding: '3px',
+                background: 'linear-gradient(135deg,#60a5fa,#818cf8,#c084fc,#818cf8)',
+                boxShadow: '0 0 0 1px rgba(129,140,248,0.15), 0 20px 60px rgba(129,140,248,0.35)',
+              }}
               animate={{ y: [0, -10, 0] }}
               transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
             >
-              {/* Avatar */}
-              <div className="relative mb-6">
-                <div className="w-20 h-20 rounded-full flex items-center justify-center font-extrabold text-white text-2xl"
-                  style={{ background: 'linear-gradient(135deg,#60a5fa,#818cf8,#c084fc)', boxShadow: '0 0 0 4px rgba(129,140,248,0.2),0 8px 28px rgba(129,140,248,0.4)' }}>
-                  AH
-                </div>
-                <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 bg-green-400"
-                  style={{ borderColor: 'var(--hero-bg)', boxShadow: '0 0 10px rgba(74,222,128,0.9)' }} />
-              </div>
-
-              <p className="font-bold text-sm mb-0.5" style={{ color: '#f1f0ff' }}>Hafiz Ammar Hameed</p>
-              <p className="text-[11px] mb-6" style={{ color: 'rgba(241,240,255,0.42)' }}>Senior Front-End Developer</p>
-
-              <div className="w-full h-px mb-6"
-                style={{ background: 'linear-gradient(90deg,transparent,rgba(129,140,248,0.18),transparent)' }} />
-
-              <div className="flex w-full justify-around">
-                {[['7+','Years'],['8+','Projects'],['5','Companies']].map(([n, l]) => (
-                  <div key={l} className="flex flex-col items-center">
-                    <span className="text-xl font-extrabold" style={{ color: '#818cf8' }}>{n}</span>
-                    <span className="text-[10px] mt-0.5" style={{ color: 'rgba(241,240,255,0.38)' }}>{l}</span>
-                  </div>
-                ))}
-              </div>
+              <img
+                src={heroImg}
+                alt="Hafiz Ammar Hameed"
+                className="w-full h-full rounded-full object-cover object-top"
+                style={{ background: 'var(--hero-bg)' }}
+              />
+              {/* Subtle overlay for blending */}
+              <div className="absolute inset-0 rounded-full"
+                style={{ background: 'linear-gradient(to bottom,transparent 60%,rgba(4,2,14,0.35))' }} />
             </motion.div>
+
+            {/* Online dot */}
+            <div className="absolute z-20 rounded-full border-[3px]"
+              style={{
+                width: '22px', height: '22px',
+                bottom: 'calc(50% - 140px + 22px)',
+                right: 'calc(50% - 140px + 16px)',
+                background: '#4ade80',
+                borderColor: 'var(--hero-bg)',
+                boxShadow: '0 0 12px rgba(74,222,128,0.9)',
+              }} />
 
             {/* Chip: Experience — top right */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ top: '36px', right: '0', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(129,140,248,0.18)', zIndex: 3 }}
+              style={{ top: '40px', right: '0', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(129,140,248,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.1, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: -4 }}
@@ -222,15 +233,15 @@ export default function Hero() {
               <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
                 style={{ background: 'rgba(129,140,248,0.18)' }}>🚀</div>
               <div className="text-left">
-                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>7+ Years</div>
-                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>Experience</div>
+                <div className="text-xs font-bold" style={{ color: 'var(--text-1)' }}>7+ Years</div>
+                <div className="text-[10px]" style={{ color: 'var(--text-2)' }}>Experience</div>
               </div>
             </motion.div>
 
-            {/* Chip: Design — top left */}
+            {/* Chip: Design — left */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ top: '118px', left: '0', background: 'rgba(192,132,252,0.1)', border: '1px solid rgba(192,132,252,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(192,132,252,0.18)', zIndex: 3 }}
+              style={{ top: '130px', left: '0', background: 'rgba(192,132,252,0.1)', border: '1px solid rgba(192,132,252,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(192,132,252,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.3, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: 4 }}
@@ -238,15 +249,15 @@ export default function Hero() {
               <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
                 style={{ background: 'rgba(192,132,252,0.18)' }}>🎨</div>
               <div className="text-left">
-                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>UI Designer</div>
-                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>& Developer</div>
+                <div className="text-xs font-bold" style={{ color: 'var(--text-1)' }}>UI Designer</div>
+                <div className="text-[10px]" style={{ color: 'var(--text-2)' }}>& Developer</div>
               </div>
             </motion.div>
 
             {/* Chip: Tech — bottom left */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ bottom: '78px', left: '0', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(96,165,250,0.18)', zIndex: 3 }}
+              style={{ bottom: '90px', left: '0', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(96,165,250,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.5, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: 4 }}
@@ -254,15 +265,15 @@ export default function Hero() {
               <div className="w-9 h-9 rounded-xl flex items-center justify-center text-lg flex-shrink-0"
                 style={{ background: 'rgba(96,165,250,0.18)' }}>⚡</div>
               <div className="text-left">
-                <div className="text-xs font-bold" style={{ color: '#f1f0ff' }}>React & Vue</div>
-                <div className="text-[10px]" style={{ color: 'rgba(241,240,255,0.42)' }}>Expert Level</div>
+                <div className="text-xs font-bold" style={{ color: 'var(--text-1)' }}>React & Vue</div>
+                <div className="text-[10px]" style={{ color: 'var(--text-2)' }}>Expert Level</div>
               </div>
             </motion.div>
 
             {/* Chip: Available — bottom right */}
             <motion.div
               className="absolute flex items-center gap-2 px-3.5 py-2.5 rounded-2xl cursor-default"
-              style={{ bottom: '48px', right: '8px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.28)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(74,222,128,0.12)', zIndex: 3 }}
+              style={{ bottom: '58px', right: '8px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.28)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(74,222,128,0.12)', zIndex: 3 }}
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.7, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.08 }}
@@ -318,7 +329,7 @@ export default function Hero() {
           <div className="w-1 h-2.5 rounded-full"
             style={{ background: 'linear-gradient(to bottom,#60a5fa,#818cf8)', animation: 'scroll-dot 1.8s ease-in-out infinite' }} />
         </div>
-        <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'rgba(241,240,255,0.3)' }}>scroll</span>
+        <span className="text-[9px] tracking-[0.25em] uppercase" style={{ color: 'var(--text-3)' }}>scroll</span>
       </motion.button>
     </section>
   )

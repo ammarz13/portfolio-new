@@ -3,22 +3,14 @@ import { useInView, revealStyle } from '../hooks/useInView.js'
 export default function SectionTitle({ children, sub, inverted = false }) {
   const [ref, visible] = useInView(0.3)
 
-  const headingStyle = inverted
-    ? {
-        background: 'linear-gradient(135deg,#f0f4ff 10%,#bfdbfe 60%,#818cf8 100%)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        backgroundClip: 'text',
-        fontSize: 'clamp(2.2rem,5vw,3.5rem)',
-      }
-    : { fontSize: 'clamp(2.2rem,5vw,3.5rem)' }
+  const headingStyle = { fontSize: 'clamp(2.6rem,5.5vw,4rem)' }
 
   return (
     <div ref={ref} className="mb-16">
       {sub && (
         <p
-          className="section-sub text-[11px] font-bold tracking-[0.22em] uppercase mb-3"
-          style={{ ...revealStyle(visible, 0, 'blur'), color: inverted ? '#bfdbfe' : 'var(--accent-text)' }}
+          className="section-sub text-[13px] font-bold tracking-[0.22em] uppercase mb-3"
+          style={{ ...revealStyle(visible, 0, 'blur'), color: 'var(--accent-text)' }}
         >
           ✦ {sub}
         </p>
@@ -26,7 +18,7 @@ export default function SectionTitle({ children, sub, inverted = false }) {
 
       <div style={{ overflow: 'hidden' }}>
         <h2
-          className={`font-extrabold tracking-tight leading-tight${inverted ? '' : ' grad-text'}`}
+          className="font-extrabold tracking-tight leading-tight grad-text"
           style={{ ...headingStyle, ...revealStyle(visible, 100, 'clip') }}
         >
           {children}

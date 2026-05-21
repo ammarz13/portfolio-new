@@ -8,7 +8,7 @@ import Projects from './components/Projects.jsx'
 import Education from './components/Education.jsx'
 import Contact from './components/Contact.jsx'
 import Footer from './components/Footer.jsx'
-import BackToTop from './components/BackToTop.jsx'
+import WhatsAppFloat from './components/WhatsAppFloat.jsx'
 import ScrollProgress from './components/ScrollProgress.jsx'
 import CursorGlow from './components/CursorGlow.jsx'
 
@@ -61,7 +61,7 @@ export default function App() {
       <Education />
       <Contact />
       <Footer />
-      <BackToTop />
+      <WhatsAppFloat />
     </>
   )
 }

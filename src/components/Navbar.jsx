@@ -45,8 +45,8 @@ export default function Navbar() {
     window.scrollTo({ top: y, behavior: 'smooth' })
   }
 
-  const navText  = scrolled ? 'var(--nav-text)'   : 'rgba(241,240,255,0.42)'
-  const navTextH = scrolled ? 'var(--nav-text-h)' : 'rgba(241,240,255,0.9)'
+  const navText  = 'var(--nav-text)'
+  const navTextH = 'var(--nav-text-h)'
 
   return (
     <nav
