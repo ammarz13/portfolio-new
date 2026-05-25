@@ -41,6 +41,7 @@ export default function WhatsAppFloat() {
         justifyContent: 'center',
         textDecoration: 'none',
         pointerEvents:  'auto',
+        position:       'relative',
         transition:     'transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease',
       }}
       onMouseEnter={(e) => {

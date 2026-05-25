@@ -12,9 +12,9 @@ const stagger = {
   show: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
 }
 const up = {
-  hidden: { y: 52, opacity: 0, filter: 'blur(8px)' },
-  show:   { y: 0,  opacity: 1, filter: 'blur(0px)',
-    transition: { type: 'spring', stiffness: 72, damping: 18 } },
+  hidden: { y: 40, opacity: 0 },
+  show:   { y: 0,  opacity: 1,
+    transition: { type: 'spring', stiffness: 80, damping: 20 } },
 }
 
 const TECH_COLORS = ['#818cf8','#60a5fa','#c084fc','#818cf8','#60a5fa','#c084fc']
@@ -38,16 +38,16 @@ export default function Hero() {
     >
       {/* ── Aurora blobs (parallax) ── */}
       <motion.div
-        style={{ y: blobY1, background: 'radial-gradient(circle,rgba(96,165,250,0.18),transparent 65%)', filter: 'blur(100px)' }}
-        className="aurora-a absolute -top-52 -left-52 w-[900px] h-[900px] rounded-full pointer-events-none"
+        style={{ y: blobY1, background: 'radial-gradient(circle,rgba(96,165,250,0.14),transparent 65%)', filter: 'blur(60px)', willChange: 'transform' }}
+        className="aurora-a absolute -top-52 -left-52 w-[700px] h-[700px] rounded-full pointer-events-none"
       />
       <motion.div
-        style={{ y: blobY2, background: 'radial-gradient(circle,rgba(129,140,248,0.14),transparent 65%)', filter: 'blur(90px)' }}
-        className="aurora-b absolute -bottom-40 -right-40 w-[700px] h-[700px] rounded-full pointer-events-none"
+        style={{ y: blobY2, background: 'radial-gradient(circle,rgba(129,140,248,0.11),transparent 65%)', filter: 'blur(50px)', willChange: 'transform' }}
+        className="aurora-b absolute -bottom-40 -right-40 w-[560px] h-[560px] rounded-full pointer-events-none"
       />
       <motion.div
-        style={{ y: blobY3, background: 'radial-gradient(circle,rgba(192,132,252,0.09),transparent 65%)', filter: 'blur(80px)' }}
-        className="aurora-c absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ y: blobY3, background: 'radial-gradient(circle,rgba(192,132,252,0.07),transparent 65%)', filter: 'blur(40px)', willChange: 'transform' }}
+        className="aurora-c absolute top-1/3 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none"
       />
 
       {/* ── Dot grid ── */}
@@ -79,7 +79,7 @@ export default function Hero() {
                 style={{
                   background:     'rgba(74,222,128,0.05)',
                   border:         '1px solid rgba(74,222,128,0.32)',
-                  backdropFilter: 'blur(16px)',
+                  backdropFilter: 'blur(8px)',
                 }}
               >
                 <span className="avail-dot relative flex-shrink-0 rounded-full"
@@ -225,7 +225,7 @@ export default function Hero() {
             {/* Chip: Experience — top right */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ top: '40px', right: '0', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(129,140,248,0.18)', zIndex: 3 }}
+              style={{ top: '40px', right: '0', background: 'rgba(129,140,248,0.1)', border: '1px solid rgba(129,140,248,0.24)', backdropFilter: 'blur(8px)', boxShadow: '0 4px 24px rgba(129,140,248,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.1, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: -4 }}
@@ -241,7 +241,7 @@ export default function Hero() {
             {/* Chip: Design — left */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ top: '130px', left: '0', background: 'rgba(192,132,252,0.1)', border: '1px solid rgba(192,132,252,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(192,132,252,0.18)', zIndex: 3 }}
+              style={{ top: '130px', left: '0', background: 'rgba(192,132,252,0.1)', border: '1px solid rgba(192,132,252,0.24)', backdropFilter: 'blur(8px)', boxShadow: '0 4px 24px rgba(192,132,252,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.3, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: 4 }}
@@ -257,7 +257,7 @@ export default function Hero() {
             {/* Chip: Tech — bottom left */}
             <motion.div
               className="absolute flex items-center gap-3 px-4 py-3 rounded-2xl cursor-default"
-              style={{ bottom: '90px', left: '0', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.24)', backdropFilter: 'blur(16px)', boxShadow: '0 4px 24px rgba(96,165,250,0.18)', zIndex: 3 }}
+              style={{ bottom: '90px', left: '0', background: 'rgba(96,165,250,0.1)', border: '1px solid rgba(96,165,250,0.24)', backdropFilter: 'blur(8px)', boxShadow: '0 4px 24px rgba(96,165,250,0.18)', zIndex: 3 }}
               initial={{ opacity: 0, x: -40 }} animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1.5, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.06, x: 4 }}
@@ -273,7 +273,7 @@ export default function Hero() {
             {/* Chip: Available — bottom right */}
             <motion.div
               className="absolute flex items-center gap-2 px-3.5 py-2.5 rounded-2xl cursor-default"
-              style={{ bottom: '58px', right: '8px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.28)', backdropFilter: 'blur(12px)', boxShadow: '0 4px 20px rgba(74,222,128,0.12)', zIndex: 3 }}
+              style={{ bottom: '58px', right: '8px', background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.28)', backdropFilter: 'blur(6px)', boxShadow: '0 4px 20px rgba(74,222,128,0.12)', zIndex: 3 }}
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.7, type: 'spring', stiffness: 75 }}
               whileHover={{ scale: 1.08 }}

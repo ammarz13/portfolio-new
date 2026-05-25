@@ -1,5 +1,15 @@
 export const experience = [
   {
+    role: 'Sr. Front-End Developer',
+    company: 'AppLab',
+    period: 'Feb 2026 – Present',
+    points: [
+      'Developing high-quality front-end solutions using Pug template engine.',
+      'Building maintainable, modular UI components for scalable web applications.',
+      'Collaborating with cross-functional teams to deliver pixel-perfect interfaces.',
+    ],
+  },
+  {
     role: 'Sr. UI Developer',
     company: 'SodaClick',
     period: 'June 2024 – Oct 2025',
