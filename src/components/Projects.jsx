@@ -29,7 +29,7 @@ export default function Projects() {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
           style={{ gridAutoFlow: 'dense' }}
         >
-          {projects.map(({ initials, name, desc, tags }, i) => {
+          {projects.map(({ initials, name, desc, tags, link }, i) => {
             const [c1, c2] = gradients[i % gradients.length]
             const isFeatured = i === 0
 
@@ -121,6 +121,7 @@ export default function Projects() {
                       className="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0 opacity-0 group-hover:opacity-100 transition-all duration-300"
                       style={{ background: `${c1}18`, color: c1 }}
                     >↗</span>
+                    <a href={link} target="_blank" rel="noopener noreferrer" className="absolute inset-0 z-10" />
                   </div>
 
                   <p
