@@ -2,23 +2,13 @@ import { link } from "framer-motion/client"
 
 export const experience = [
   {
-    role: 'Sr. Front-End Developer',
-    company: 'AppLab',
-    period: 'Feb 2026 – Present',
+    role: 'Freelance Front-End Developer | Self-Employed / Freelance',
+    company: 'Freelance',
+    period: 'June 2024 – January 2026',
     points: [
-      'Developing high-quality front-end solutions using Pug template engine.',
+      'Delivered front-end development and UI implementation for multiple independent clients using React.js, Tailwind CSS, and WordPress.',
       'Building maintainable, modular UI components for scalable web applications.',
       'Collaborating with cross-functional teams to deliver pixel-perfect interfaces.',
-    ],
-  },
-  {
-    role: 'Sr. UI Developer',
-    company: 'SodaClick',
-    period: 'June 2024 – Oct 2025',
-    points: [
-      'Led front-end development to create modern, scalable, high-performance applications.',
-      'Collaborated with UI/UX designers to implement seamless, pixel-perfect designs.',
-      'Ensured best practices in web development and performance optimization.',
     ],
   },
   {

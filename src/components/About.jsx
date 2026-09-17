@@ -13,7 +13,7 @@ const SPECIALTIES = [
 ]
 
 const MINI_STATS = [
-  { num: 8,  suffix: '+', label: 'Projects',  color: '#60a5fa' },
+  { num: 20,  suffix: '+', label: 'Projects',  color: '#60a5fa' },
   { num: 5,  suffix: '',  label: 'Companies', color: '#c084fc' },
   { num: 20, suffix: '+', label: 'Skills',    color: '#818cf8' },
 ]
